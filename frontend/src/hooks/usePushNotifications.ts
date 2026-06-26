@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type {
-  NotificationItem,
   PermissionStatus,
   SubscriptionStatus,
   ServiceWorkerStatus,
