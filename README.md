@@ -97,9 +97,9 @@ Browser Push Service
 ### Clone the repository
 
 ```bash
-git clone https://github.com/your-username/web-push-notification-system.git
+git clone https://github.com/saurav6202/WebPush-Notification-System.git
 
-cd web-push-notification-system
+cd WebPush-Notification-System
 ```
 
 ---
