@@ -14,8 +14,6 @@ interface IPushSubscription extends Document {
     p256dh: string;
   };
 
-  browser: string;
-
   deviceInfo: {
     browser: string;
     browserVersion: string;
@@ -23,6 +21,10 @@ interface IPushSubscription extends Document {
     platform: string;
     userAgent: string;
   };
+
+  lastSeen: Date;
+
+  active: boolean;
 
   createdAt: Date;
 
@@ -61,17 +63,22 @@ const pushSubscriptionSchema = new Schema<IPushSubscription>(
       },
     },
 
-    browser: {
-      type: String,
-      default: "Unknown",
-    },
-
     deviceInfo: {
       browser: String,
       browserVersion: String,
       os: String,
       platform: String,
       userAgent: String,
+    },
+
+    lastSeen: {
+      type: Date,
+      default: Date.now,
+    },
+
+    active: {
+      type: Boolean,
+      default: true,
     },
   },
   {

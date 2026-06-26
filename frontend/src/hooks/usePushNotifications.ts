@@ -7,6 +7,7 @@ import type {
 } from "../types/notification";
 import NotificationService from "../services/notification.service";
 import { showError, showSuccess, showWarning } from "../utils/toast";
+import { getDeviceInfo } from "../utils/device";
 
 export function usePushNotifications() {
   const [permission, setPermission] = useState<PermissionStatus>("default");
@@ -46,13 +47,19 @@ export function usePushNotifications() {
         return;
       }
       const subscription = await NotificationService.subscribe();
-      const response = await NotificationService.saveSubscription(subscription);
+      const deviceInfo = getDeviceInfo();
+      const response = await await NotificationService.saveSubscription({
+        subscription,
+        userId: "student_101",
+        deviceInfo,
+      });
       if (response.success) {
         showSuccess("Notification enabled.");
         setSubscription("subscribed");
       }
     } catch (error) {
       console.error(error);
+      console.log("err: ", error)
       showWarning("Failed to enable notifications.");
     } finally {
       setLoading(false);

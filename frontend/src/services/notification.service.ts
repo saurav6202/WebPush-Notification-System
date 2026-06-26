@@ -2,6 +2,18 @@ import api from "../lib/axios";
 import { showError } from "../utils/toast";
 import { subscribeUser } from "../utils/urlBase64ToUint8Array";
 
+type SaveSubscriptionRequest = {
+  subscription: PushSubscription;
+  userId?: string;
+  deviceInfo: {
+    browser: string;
+    browserVersion: string;
+    os: string;
+    platform: string;
+    userAgent: string;
+  };
+};
+
 class NotificationService {
   async registerServiceWorker() {
     if (!("serviceWorker" in navigator)) {
@@ -47,10 +59,9 @@ class NotificationService {
     return true;
   }
 
-  async saveSubscription(subscription: PushSubscription) {
-    const res = await api.post("/notifications/subscribe", {
-      subscription,
-    });
+  async saveSubscription(payload: SaveSubscriptionRequest) {
+    console.log("payload: ", payload)
+    const res = await api.post("/notifications/subscribe", { data: payload });
     return res.data;
   }
 

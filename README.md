@@ -7,102 +7,116 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-8-47A248?logo=mongodb)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss)
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-A full-stack **Web Push Notification System** built with **React**, **TypeScript**, **Express.js**, **MongoDB**, and **Service Workers**. It allows users to subscribe for push notifications and enables sending notifications to all registered devices directly from a web dashboard.
+A production-ready **Web Push Notification System** built with **React, TypeScript, Express.js, MongoDB, and the Web Push API**. This project demonstrates the complete push notification lifecycle—from browser permission and subscription management to sending notifications through **web-push** and delivering them via **Service Workers**, even when the website is closed.
 
 ---
 
 ## ✨ Features
 
-- 📩 Browser Push Notifications
-- 🔐 Notification Permission Handling
-- 📡 Push Subscription Management
-- 💾 Store Subscriptions in MongoDB
-- 🚀 Send Notifications to All Subscribers
-- 📱 Works Across Multiple Browsers & Devices
-- 📝 Notification History (Frontend)
-- ⚡ Built with TypeScript
-- 🎨 Modern React UI
+* 🔔 Browser Push Notifications
+* 🛡️ Notification Permission Management
+* ⚙️ Service Worker Registration
+* 📡 Push Subscription Management
+* 💾 Store & Update Subscriptions in MongoDB
+* 📤 Send Notifications to All Subscribers
+* 🖱️ Open Custom URL on Notification Click
+* 🧹 Automatic Cleanup of Expired Subscriptions
+* 🌐 Works Across Multiple Browsers & Devices
+* 📱 Responsive Admin Test Panel
+* ⚡ Built with TypeScript
+* 🎨 Modern UI with React & Tailwind CSS
 
 ---
 
-## 🏗️ Tech Stack
+## 🛠 Tech Stack
 
 ### Frontend
-- React
-- TypeScript
-- Tailwind CSS
-- Axios
-- Vite
+
+* React 19
+* TypeScript
+* Tailwind CSS
+* Axios
+* Vite
 
 ### Backend
-- Node.js
-- Express.js
-- TypeScript
-- MongoDB
-- Mongoose
-- web-push
+
+* Node.js
+* Express.js
+* TypeScript
+* MongoDB
+* Mongoose
+* web-push
 
 ---
 
 ## 📂 Project Structure
 
-```
-web-push-notification-system/
+```text
+WebPush-Notification-System/
 │
-├── client/                 # React App
-│   ├── src/
+├── frontend/
 │   ├── public/
-│   └── ...
-│
-├── server/                 # Express API
+│   │   └── sw.js
 │   ├── src/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   └── ...
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   └── ...
+│   └── package.json
+│
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   └── ...
+│   └── package.json
 │
 └── README.md
 ```
 
 ---
 
-## 🔄 System Architecture
+# 🏗️ System Architecture
 
-```
-                React Application
-                       │
-                       ▼
-           Notification Manager
-                       │
-      ┌────────────────┴────────────────┐
-      ▼                                 ▼
-Permission Manager              Service Worker
-      │                                 │
-      ▼                                 ▼
-Push Subscription              Push Events
-      │
-      ▼
+```text
+                 React Application
+                        │
+                        ▼
+             Notification Manager
+                        │
+         ┌──────────────┴──────────────┐
+         ▼                             ▼
+ Permission Manager             Service Worker
+         │                             │
+         ▼                             ▼
+ Push Subscription             Push Event Listener
+         │
+         ▼
       Express API
-      │
-      ▼
-      MongoDB
-      │
-      ▼
- web-push Library
-      │
-      ▼
-Browser Push Service
-      │
-      ▼
- User Device
+         │
+         ▼
+       MongoDB
+         │
+         ▼
+      web-push
+         │
+         ▼
+ Browser Push Service (FCM)
+         │
+         ▼
+      User Device
 ```
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Getting Started
 
-### Clone the repository
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/saurav6202/WebPush-Notification-System.git
@@ -112,10 +126,10 @@ cd WebPush-Notification-System
 
 ---
 
-## Frontend Setup
+## 2. Frontend Setup
 
 ```bash
-cd client
+cd frontend
 
 npm install
 
@@ -124,16 +138,16 @@ npm run dev
 
 Runs on:
 
-```
+```text
 http://localhost:5173
 ```
 
 ---
 
-## Backend Setup
+## 3. Backend Setup
 
 ```bash
-cd server
+cd backend
 
 npm install
 
@@ -142,15 +156,15 @@ npm run dev
 
 Runs on:
 
-```
+```text
 http://localhost:4000
 ```
 
 ---
 
-## Environment Variables
+# ⚙️ Environment Variables
 
-Create a `.env` file inside the server directory.
+Create a `.env` file inside the **backend** directory.
 
 ```env
 PORT=4000
@@ -166,7 +180,7 @@ VAPID_EMAIL=mailto:your@email.com
 
 ---
 
-## Generate VAPID Keys
+# 🔑 Generate VAPID Keys
 
 ```bash
 npx web-push generate-vapid-keys
@@ -176,33 +190,68 @@ Copy the generated keys into your `.env` file.
 
 ---
 
-## Notification Flow
+# 🔄 Notification Flow
 
-1. User opens the application.
-2. Browser asks for notification permission.
-3. Service Worker is registered.
-4. User subscribes to Push Notifications.
-5. Subscription is stored in MongoDB.
-6. Admin sends a notification.
-7. Backend retrieves all subscriptions.
-8. web-push sends notifications.
-9. Browser displays the notification.
+```text
+User visits website
+        │
+        ▼
+Browser requests notification permission
+        │
+        ▼
+Service Worker registered
+        │
+        ▼
+Push subscription created
+        │
+        ▼
+Subscription stored in MongoDB
+        │
+        ▼
+Admin sends notification
+        │
+        ▼
+Backend retrieves subscriptions
+        │
+        ▼
+web-push sends notification
+        │
+        ▼
+Service Worker receives push event
+        │
+        ▼
+Browser displays notification
+        │
+        ▼
+User clicks notification
+        │
+        ▼
+Website opens to the specified URL
+```
 
 ---
 
-## MongoDB Subscription Schema
+# 🗄️ Push Subscription Schema
 
 ```ts
 {
   _id,
   userId,
   endpoint,
+  expirationTime,
   keys: {
     auth,
     p256dh
   },
-  browser,
-  device,
+  deviceInfo: {
+    browser,
+    browserVersion,
+    os,
+    platform,
+    userAgent
+  },
+  active,
+  lastSeen,
   createdAt,
   updatedAt
 }
@@ -210,62 +259,79 @@ Copy the generated keys into your `.env` file.
 
 ---
 
-## API Endpoints
+# 📡 API Endpoints
 
 ### Subscribe
 
-```
+```http
 POST /api/notifications/subscribe
 ```
 
-Stores a new push subscription.
+Creates or updates a push subscription.
 
 ---
 
 ### Unsubscribe
 
-```
+```http
 DELETE /api/notifications/unsubscribe
 ```
 
-Removes an existing subscription.
+Removes a push subscription.
 
 ---
 
 ### Send Notification
 
-```
+```http
 POST /api/notifications/send
 ```
 
-Sends a push notification to all subscribers.
+Broadcasts a push notification to all active subscribers.
 
 ---
 
-## Future Improvements
+# 📋 Current Features
 
-- User Authentication
-- Topic-Based Notifications
-- Scheduled Notifications
-- Notification Analytics
-- Retry Failed Deliveries
-- Device Management
-- Admin Dashboard
-- Rate Limiting
-- Docker Support
-- Unit & Integration Tests
-- CI/CD Pipeline
+* ✅ Push Notifications
+* ✅ Service Workers
+* ✅ VAPID Authentication
+* ✅ MongoDB Subscription Storage
+* ✅ Multi-browser Support
+* ✅ Notification Click Actions
+* ✅ Device Tracking
+* ✅ Automatic Subscription Updates
+* ✅ Expired Subscription Cleanup
 
 ---
 
-## License
+# 🚧 Future Improvements
 
-This project is licensed under the MIT License.
+* JWT Authentication
+* User-Based Notifications
+* Class-Based Notifications
+* Topic & Group Notifications
+* Scheduled Notifications
+* Notification Templates
+* Notification Analytics
+* Retry Queue
+* Device Management Dashboard
+* Docker Support
+* Unit & Integration Tests
+* CI/CD Pipeline
 
 ---
 
-## Author
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+# 👨‍💻 Author
 
 **Saurav**
 
-Built with ❤️ using React, TypeScript, Express.js, MongoDB, and Web Push API.
+If you found this project helpful, consider giving it a ⭐ on GitHub.
+
+Built with ❤️ using React, TypeScript, Express.js, MongoDB, Service Workers, and the Web Push API.

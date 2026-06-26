@@ -1,18 +1,31 @@
 import { Request, Response } from "express";
 import NotificationService from "../services/notification.service";
 
+type SubscriptionPayload = {
+  subscription: PushSubscription;
+  userId?: string;
+  deviceInfo: {
+    browser: string;
+    browserVersion: string;
+    os: string;
+    platform: string;
+    userAgent: string;
+  };
+};
+
+
 export const handleSubscribe = async (req: Request, res: Response) => {
   try {
-    const { subscription } = req.body;
+    const { data } = req.body;
 
-    if (!subscription) {
+    if (!data.subscription) {
       return res.status(400).json({
         success: false,
         message: "Subscription missing",
       });
     }
     const saved =
-      await NotificationService.createOrUpdateSubscription(subscription);
+      await NotificationService.createOrUpdateSubscription(data);
     return res.status(201).json({
       success: true,
       data: saved,

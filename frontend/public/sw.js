@@ -7,7 +7,14 @@ self.addEventListener("activate", () => {
 });
 
 self.addEventListener("push", (event) => {
-  console.log("Push received:", event);
+  console.log("🔥 PUSH EVENT TRIGGERED");
+
+  if (!event.data) {
+    console.log("No data in push");
+    return;
+  }
+
+  console.log("RAW DATA:", event.data.text());
 
   let data = {};
 
@@ -19,6 +26,8 @@ self.addEventListener("push", (event) => {
     }
   }
 
+  console.log("PARSED DATA:", data);
+  
   const title = data.title || "Notification";
   const options = {
     body: data.body || "No message",
