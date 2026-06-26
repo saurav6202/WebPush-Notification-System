@@ -1,22 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { Header } from "./components/Header";
 import { NotificationStatusCard } from "./components/NotificationStatusCard";
 import { EnableNotificationsButton } from "./components/EnableNotificationsButton";
-import { TestNotificationPanel } from "./components/TestNotificationPanel";
-import { NotificationHistory } from "./components/NotificationHistory";
 
-import type {
-  NotificationItem,
-  PermissionStatus,
-  SubscriptionStatus,
-  ServiceWorkerStatus,
-} from "./types/notification";
-
-import { subscribeUser } from "./utils/urlBase64ToUint8Array";
-import api from "./lib/axios";
-import { showSuccess, showWarning } from "./utils/toast";
 import { Toaster } from "sonner";
 import { usePushNotifications } from "./hooks/usePushNotifications";
+import { TestNotificationPanel } from "./components/TestNotificationPanel";
 
 const App = () => {
   const {
@@ -47,12 +35,14 @@ const App = () => {
           isLoading={loading}
         />
 
-        {/* <TestNotificationPanel onSend={sendTest} isEnabled={isEnabled} /> */}
-
-        {/* <NotificationHistory items={history} /> */}
+        <TestNotificationPanel disabled={subscription !== "subscribed"} />
       </div>
     </>
   );
 };
 
 export default App;
+
+{
+  /* <NotificationHistory items={history} /> */
+}

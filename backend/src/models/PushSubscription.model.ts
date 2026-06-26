@@ -33,7 +33,7 @@ const pushSubscriptionSchema = new Schema<IPushSubscription>(
   {
     userId: {
       type: String,
-      required: true,
+      required: false,
       index: true,
     },
 

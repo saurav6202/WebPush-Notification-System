@@ -19,7 +19,7 @@ app.use(
 
 import notificationRouter from "./routes/notification.routes";
 
-app.use("/api/notifications", notificationRouter);
+app.use("/notifications", notificationRouter);
 
 app.get("/", (_, res) => {
   res.send("Notificaiton server");

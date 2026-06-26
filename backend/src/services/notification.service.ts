@@ -10,12 +10,13 @@ interface Payload {
 
 class NotificationService {
   async createOrUpdateSubscription(data: any) {
-    const { endpoint } = data;
+    const { endpoint, keys, expirationTime, userId } = data;
+    console.log("data: ", data);
     const existing = await PushSubscription.findOne({ endpoint });
     if (existing) {
-      existing.keys = data.keys;
-      existing.expirationTime = data.expirationTime;
-      existing.userId = data.userId || existing.userId;
+      existing.keys = keys;
+      existing.expirationTime = expirationTime;
+      existing.userId = userId || existing.userId;
       await existing.save();
       return existing;
     }
@@ -48,9 +49,11 @@ class NotificationService {
   async sendToAllUsers(payload: Payload) {
     const subscriptions = await PushSubscription.find();
     const message = JSON.stringify(payload);
+    console.log("message: ", message)
     const results = await Promise.allSettled(
       subscriptions.map((sub) => webpush.sendNotification(sub as any, message)),
     );
+    console.log("results: ", results)
     await this.cleanFailedSubscriptions(results, subscriptions);
     return results;
   }
