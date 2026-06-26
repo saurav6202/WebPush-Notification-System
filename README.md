@@ -7,7 +7,6 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-8-47A248?logo=mongodb)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss)
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite)
-![License](https://img.shields.io/badge/License-MIT-success)
 
 A full-stack **Web Push Notification System** built with **React**, **TypeScript**, **Express.js**, **MongoDB**, and **Service Workers**. It allows users to subscribe for push notifications and enables sending notifications to all registered devices directly from a web dashboard.
 
